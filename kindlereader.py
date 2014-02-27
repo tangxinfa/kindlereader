@@ -559,7 +559,10 @@ class feedDownloader(threading.Thread):
                 try:
                     published_datetime = datetime(*entry.published_parsed[0:6])
                 except:
-                    published_datetime = self.parsetime(entry.published)
+                    try:
+                        published_datetime = self.parsetime(entry.published)
+                    except:
+                        published_datetime = self.parsetime(entry.updated)
                     
                 if datetime.utcnow() - published_datetime > krconfig.max_old_date:
                     break
